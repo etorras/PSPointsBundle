@@ -1,3 +1,7 @@
 {
-    "name": "ps/ps-points-bundle"
+    "name": "ps/ps-points-bundle",
+    "autoload": {
+        "psr-0": { "PS\\Bundle\\PSPointsBundle": "" }
+    },
+    "target-dir": "PS/Bundle/PSPointsBundle"
 }
