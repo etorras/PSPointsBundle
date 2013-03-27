@@ -1,5 +1,21 @@
 {
     "name": "ps/ps-points-bundle",
+    "description": "Points bundle",
+    "keywords": ["users"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Quique Torras",
+            "email": "etorras@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "require-dev": {
+        "symfony/framework-bundle": ">=2.1"
+    },    
     "autoload": {
         "psr-0": { "PS\\Bundle\\PSPointsBundle": "" }
     },
