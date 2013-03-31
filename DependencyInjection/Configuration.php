@@ -20,10 +20,34 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('psps_points');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->scalarNode('user_class')->isRequired()->cannotBeEmpty()->end()
+            ->end()
+
+            ->children()
+                ->arrayNode('parameters')
+                    ->isRequired()
+                    ->requiresAtLeastOneElement()
+                    ->useAttributeAsKey('name')
+                    ->prototype('integer')->isRequired()->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }
 }
+/*->children()
+    ->arrayNode('parameters')
+    ->isRequired()
+    ->requiresAtLeastOneElement()
+    ->prototype('array')
+    ->children()
+    ->scalarNode('name')->isRequired()->end()
+    ->scalarNode('value')->isRequired()->end()
+    ->end()
+    ->end()
+    ->end()
+    ->end()*/

@@ -21,8 +21,15 @@ class PSPSPointsExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        var_dump($config);
+        // The psps.user_class parameter gives the user class used in the system.
+        $container->setParameter('psps.user_class', $config['user_class']);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.xml');
+        foreach ($config['parameters'] as $key => $value) {
+            $container->setParameter('psps.'.$key, $value);
+        }
+
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.yml');
     }
 }

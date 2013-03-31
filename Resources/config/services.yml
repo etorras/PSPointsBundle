@@ -1,0 +1,14 @@
+parameters:
+   psps.points.api.supported_formats: json|xml
+
+services:
+    psps.points.manager:
+        class: PS\Bundle\PSPointsBundle\Model\PointsManager
+        arguments: [ @doctrine.orm.entity_manager]
+
+    psps.points.service:
+        alias: psps.points.manager
+
+    psps.points.controller:
+        class: PS\Bundle\PSPointsBundle\Controller\PointsController
+        arguments: [ @psps.points.manager, @security.context]
