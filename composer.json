@@ -11,10 +11,13 @@
             }
         ],
     "require": {
-            "php": ">=5.3.3"
+            "php": ">=5.3.3",
+            "doctrine/orm": "~2.2,>=2.2.3",
+            "doctrine/doctrine-bundle": "1.2.*"
         },
     "require-dev": {
     },
+    "minimum-stability": "alpha",
     "autoload": {
             "psr-0": { "PS\\Bundle\\PSPointsBundle": "" }
         },
