@@ -25,9 +25,7 @@ class PSPSPointsExtension extends Extension
         // The psps.user_class parameter gives the user class used in the system.
         $container->setParameter('psps.user_class', $config['user_class']);
 
-        foreach ($config['parameters'] as $key => $value) {
-            $container->setParameter('psps.'.$key, $value);
-        }
+        $container->setParameter('psps.parameters', $config['parameters']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
