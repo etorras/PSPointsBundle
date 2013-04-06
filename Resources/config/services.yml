@@ -6,9 +6,9 @@ services:
         class: PS\Bundle\PSPointsBundle\Model\PointsManager
         arguments: [ @doctrine.orm.entity_manager]
 
-    psps.points.service:
-        alias: psps.points.manager
-
-    psps.points.controller:
-        class: PS\Bundle\PSPointsBundle\Controller\PointsController
-        arguments: [ @psps.points.manager, @security.context]
+    psps.user_asocciation.listener:
+        class: PS\Bundle\PSPointsBundle\Doctrine\ORM\EventListener\UserAssociationListener
+        arguments: [ %psps.user_class%]
+        public: false
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata}

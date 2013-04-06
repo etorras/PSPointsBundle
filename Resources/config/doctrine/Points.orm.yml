@@ -1,0 +1,17 @@
+PS\Bundle\PSPointsBundle\Entity\Points:
+    type: entity
+    table: points
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        creationDate:
+            type: datetime
+        source:
+            type: string
+            length: '20'
+        points:
+            type: integer
+    lifecycleCallbacks: {  }

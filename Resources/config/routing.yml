@@ -1,6 +1,0 @@
-ps_points_set_points:
-    pattern:  /points/save/{points}
-    defaults: { _controller: psps.points.controller:savePointsAction} #, _format: json
-    requirements:
-        _format:  %psps.points.api.supported_formats%
-        _method: GET #POST
