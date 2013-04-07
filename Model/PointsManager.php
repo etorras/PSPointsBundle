@@ -9,8 +9,13 @@ namespace PS\Bundle\PSPointsBundle\Model;
 
 use Doctrine\Tests\Common\Annotations\Null;
 use PS\Bundle\PSPointsBundle\Entity\Points;
+use PS\Bundle\PSPointsBundle\Entity\UserPoints;
+use PS\Bundle\PSPointsBundle\Events\PointsEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use PS\Bundle\PSPointsBundle\Events\Events;
+use Symfony\Component\EventDispatcher\Event;
 use PS\Bundle\PSPointsBundle\Model\PointsInterface;
 
 /**
@@ -27,13 +32,22 @@ class PointsManager implements PointsInterface
     protected $objectManager;
 
     /**
-     * Constructor.
+     * Dispatcher for the events
      *
-     * @param \Doctrine\Common\Persistence\ObjectManager        $objectManager
+     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
-    public function __construct(ObjectManager $objectManager)
+    protected $dispatcher;
+
+    /**
+     * Construct
+     *
+     * @param \Doctrine\Common\Persistence\ObjectManager $objectManager
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     */
+    public function __construct(ObjectManager $objectManager, EventDispatcherInterface $dispatcher)
     {
         $this->objectManager = $objectManager;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -54,9 +68,15 @@ class PointsManager implements PointsInterface
         $points->setCreationDate(new \DateTime());
         $points->setUser($user);
 
-        $this->objectManager->persist($points);
+        //Dispatch event and get the $enquiry object, in case the listener change it
+        $event = new PointsEvent($points);
+        $this->dispatcher->dispatch(Events::PRE_PERSIST_POINTS, $event);
 
+        $this->objectManager->persist($points);
         $this->objectManager->flush();
+
+        //Dispatch event to inform object has persisted
+        $this->dispatcher->dispatch(Events::POST_PERSIST_POINTS, $event);
 
     }
 
@@ -84,4 +104,21 @@ class PointsManager implements PointsInterface
 
     }
 
+    public function computePoints($points, UserInterface $user)
+    {
+        if (null === $user) {
+            throw new \Exception("User can not be null");
+        }
+        $userPoints = $this->objectManager->getRepository('PSPSPointsBundle:UserPoints')->find($user);
+        if (null == $userPoints) {
+            $userPoints = New UserPoints();
+        }
+        $userPoints->setLastUpdate(new \DateTime());
+        $userPoints->setUser($user);
+        $userPoints->setPoints($points);
+    
+        $this->objectManager->persist($userPoints);
+        $this->objectManager->flush();
+
+    }
 }

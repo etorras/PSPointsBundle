@@ -1,6 +1,7 @@
 <?php
-
-
+/**
+ *
+ */
 namespace PS\Bundle\PSPointsBundle\Doctrine\ORM\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
@@ -30,9 +31,14 @@ class UserAssociationListener
         $classMetadata = $args->getClassMetadata();
 
         if ($classMetadata->getName()=='PS\Bundle\PSPointsBundle\Entity\Points') {
-            //Setting the one to one relationship
+            //Setting the Many to one relationship
             $builder = new ClassMetadataBuilder($args->getClassMetadata());
             $builder->addManyToOne('user', $this->userClassname);
+        }
+        elseif ($classMetadata->getName()=='PS\Bundle\PSPointsBundle\Entity\UserPoints') {
+            //Setting the one to one relationship
+            $builder = new ClassMetadataBuilder($args->getClassMetadata());
+            $builder->addOwningOneToOne('user', $this->userClassname);
         }
 
     }

@@ -1,0 +1,14 @@
+PS\Bundle\PSPointsBundle\Entity\UserPoints:
+    type: entity
+    table: user_points
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        lastUpdate:
+            type: datetime
+        points:
+            type: integer
+    lifecycleCallbacks: {  }
