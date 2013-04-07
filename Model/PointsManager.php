@@ -68,9 +68,11 @@ class PointsManager implements PointsInterface
         $points->setCreationDate(new \DateTime());
         $points->setUser($user);
 
-        //Dispatch event and get the $enquiry object, in case the listener change it
+        //Dispatch event and get the $points object, in case the listener change it
         $event = new PointsEvent($points);
         $this->dispatcher->dispatch(Events::PRE_PERSIST_POINTS, $event);
+
+        $points = $event->getPoints();
 
         $this->objectManager->persist($points);
         $this->objectManager->flush();
@@ -116,7 +118,7 @@ class PointsManager implements PointsInterface
         $userPoints->setLastUpdate(new \DateTime());
         $userPoints->setUser($user);
         $userPoints->setPoints($points);
-    
+
         $this->objectManager->persist($userPoints);
         $this->objectManager->flush();
 

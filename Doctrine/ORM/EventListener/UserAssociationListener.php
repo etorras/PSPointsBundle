@@ -40,6 +40,5 @@ class UserAssociationListener
             $builder = new ClassMetadataBuilder($args->getClassMetadata());
             $builder->addOwningOneToOne('user', $this->userClassname);
         }
-
     }
 }
