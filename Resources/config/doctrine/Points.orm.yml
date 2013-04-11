@@ -1,6 +1,7 @@
 PS\Bundle\PSPointsBundle\Entity\Points:
     type: entity
     table: points
+    repositoryClass: PS\Bundle\PSPointsBundle\Entity\PointsRepository
     fields:
         id:
             type: integer

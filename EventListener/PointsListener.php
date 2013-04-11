@@ -6,22 +6,34 @@
 
 namespace PS\Bundle\PSPointsBundle\EventListener;
 
-use PS\Bundle\PSPointsBundle\Model\PointsManager;
+use PS\Bundle\PSPointsBundle\Model\UserPointsManager;
 use PS\Bundle\PSPointsBundle\Events\PointsEvent;
 
 class PointsListener {
 
-    protected $pm;
+    protected $upm;
+    protected $om;
 
-    public function __construct(PointsManager $pm)
+    public function __construct ($om, UserPointsManager $upm)
     {
-        $this->pm = $pm;
+        $this->upm = $upm;
+        $this->om = $om;
     }
 
     public function onSavePoints(PointsEvent $event)
     {
         $user = $event->getPoints()->getUser();
-        $totalPoints = $this->pm->getPointsByUser($user);
-        $this->pm->computePoints($totalPoints, $user);
+        $totalPoints = $this->om->getRepository('PSPSPointsBundle:Points')->findTotalPointsByUser($user);
+        $params = array (
+            'user' => $user,
+            'points' => $totalPoints
+        );
+        $userPoints = $this->om->getRepository('PSPSPointsBundle:UserPoints')->find($user);
+        if (null == $userPoints) {
+            $this->upm->create($params);
+        }
+        else {
+            $this->upm->update($params, $userPoints);
+        }
     }
 }

@@ -39,15 +39,3 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 }
-/*->children()
-    ->arrayNode('parameters')
-    ->isRequired()
-    ->requiresAtLeastOneElement()
-    ->prototype('array')
-    ->children()
-    ->scalarNode('name')->isRequired()->end()
-    ->scalarNode('value')->isRequired()->end()
-    ->end()
-    ->end()
-    ->end()
-    ->end()*/

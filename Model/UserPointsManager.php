@@ -8,20 +8,20 @@
 namespace PS\Bundle\PSPointsBundle\Model;
 
 use Doctrine\Tests\Common\Annotations\Null;
-use PS\Bundle\PSPointsBundle\Entity\Points as EntityPoints;
-use PS\Bundle\PSPointsBundle\Events\PointsEvent;
+use PS\Bundle\PSPointsBundle\Entity\UserPoints;
+use PS\Bundle\PSPointsBundle\Events\UserPointsEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use PS\Bundle\PSPointsBundle\Events\Events;
 use Symfony\Component\EventDispatcher\Event;
-use PS\Bundle\PSPointsBundle\Model\PointsInterface;
+use PS\Bundle\PSPointsBundle\Model\UserPointsInterface;
 
 /**
  * Points manager.
  * Access point to all the bundle's features and factory service to create database objects
  */
-class PointsManager implements PointsInterface
+class UserPointsManager implements UserPointsInterface
 {
     /**
      * ObjectManager to access the database, by ORM
@@ -61,24 +61,48 @@ class PointsManager implements PointsInterface
         if (!$params['user'] instanceof UserInterface) {
             throw new \Exception("User must be an instance of UserInterface");
         }
-        $points = New EntityPoints();
-        $points->setPoints($params['points']);
-        $points->setSource($params['source']);
-        $points->setCreationDate(new \DateTime());
-        $points->setUser($params['user']);
+        $userPoints = New UserPoints();
+        $userPoints->setLastUpdate(new \DateTime());
+        $userPoints->setPoints($params['points']);
+        $userPoints->setUser($params['user']);
 
         //Dispatch event and get the $points object, in case the listener change it
-        $event = new PointsEvent($points);
-        $this->dispatcher->dispatch(Events::PRE_PERSIST_POINTS, $event);
+        $event = new UserPointsEvent($userPoints);
+        $this->dispatcher->dispatch(Events::PRE_PERSIST_USERPOINTS, $event);
 
-        $points = $event->getPoints();
+        $userPoints = $event->getUserPoints();
 
-        $this->objectManager->persist($points);
+        $this->objectManager->persist($userPoints);
         $this->objectManager->flush();
 
         //Dispatch event to inform object has persisted
-        $this->dispatcher->dispatch(Events::POST_PERSIST_POINTS, $event);
+        $this->dispatcher->dispatch(Events::POST_PERSIST_USERPOINTS, $event);
 
     }
+    public function update($params, UserPoints $userPoints)
+    {
+        if (null === $params['user']) {
+            throw new \Exception("User can not be null");
+        }
+        if (!$params['user'] instanceof UserInterface) {
+            throw new \Exception("User must be an instance of UserInterface");
+        }
 
+        $userPoints->setLastUpdate(new \DateTime());
+        $userPoints->setPoints($params['points']);
+        $userPoints->setUser($params['user']);
+
+        //Dispatch event and get the $points object, in case the listener change it
+        $event = new UserPointsEvent($userPoints);
+        $this->dispatcher->dispatch(Events::PRE_PERSIST_USERPOINTS, $event);
+
+        $userPoints = $event->getUserPoints();
+
+        $this->objectManager->persist($userPoints);
+        $this->objectManager->flush();
+
+        //Dispatch event to inform object has persisted
+        $this->dispatcher->dispatch(Events::POST_PERSIST_USERPOINTS, $event);
+
+    }
 }
