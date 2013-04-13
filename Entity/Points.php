@@ -2,7 +2,6 @@
 /**
  * User: etorras
  * Date: 5/04/13
- * Time: 22:52
  */
 namespace PS\Bundle\PSPointsBundle\Entity;
 

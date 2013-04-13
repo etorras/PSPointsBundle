@@ -4,7 +4,11 @@ parameters:
 services:
     psps.points.manager:
         class: PS\Bundle\PSPointsBundle\Model\PointsManager
-        arguments: [ @doctrine.orm.entity_manager]
+        arguments: [ @doctrine.orm.entity_manager, @event_dispatcher]
+
+    psps.user_points.manager:
+        class: PS\Bundle\PSPointsBundle\Model\UserPointsManager
+        arguments: [ @doctrine.orm.entity_manager, @event_dispatcher]
 
     psps.user_asocciation.listener:
         class: PS\Bundle\PSPointsBundle\Doctrine\ORM\EventListener\UserAssociationListener
@@ -12,3 +16,9 @@ services:
         public: false
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata}
+
+    psps.user_add_points.listener:
+        class: PS\Bundle\PSPointsBundle\EventListener\PointsListener
+        arguments: [ @doctrine.orm.entity_manager, @psps.user_points.manager ]
+        tags:
+            - { name: kernel.event_listener, event: psps.points.event.post_persist_points, method: onSavePoints }
