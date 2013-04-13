@@ -8,7 +8,7 @@
 namespace PS\Bundle\PSPointsBundle\Model;
 
 use Doctrine\Tests\Common\Annotations\Null;
-use PS\Bundle\PSPointsBundle\Entity\UserPoints;
+use PS\Bundle\PSPointsBundle\Entity\UserPoints as EntityUserPoints;
 use PS\Bundle\PSPointsBundle\Events\UserPointsEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -61,7 +61,7 @@ class UserPointsManager implements UserPointsInterface
         if (!$params['user'] instanceof UserInterface) {
             throw new \Exception("User must be an instance of UserInterface");
         }
-        $userPoints = New UserPoints();
+        $userPoints = New EntityUserPoints();
         $userPoints->setLastUpdate(new \DateTime());
         $userPoints->setPoints($params['points']);
         $userPoints->setUser($params['user']);
