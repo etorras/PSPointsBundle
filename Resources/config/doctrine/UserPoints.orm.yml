@@ -1,18 +1,14 @@
-PS\Bundle\PSPointsBundle\Entity\Points:
+PS\Bundle\PSPointsBundle\Entity\UserPoints:
     type: entity
-    table: points
-    repositoryClass: PS\Bundle\PSPointsBundle\Entity\PointsRepository
+    table: user_points
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        creationDate:
+        lastUpdate:
             type: datetime
-        source:
-            type: string
-            length: '20'
         points:
             type: integer
     lifecycleCallbacks: {  }

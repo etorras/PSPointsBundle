@@ -21,8 +21,7 @@ class PSPSPointsExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        var_dump($config);
-        // The psps.user_class parameter gives the user class used in the system.
+
         $container->setParameter('psps.user_class', $config['user_class']);
 
         $container->setParameter('psps.parameters', $config['parameters']);
