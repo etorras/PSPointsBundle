@@ -11,6 +11,7 @@ namespace PS\Bundle\PSPointsBundle\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 abstract class Points {
     /**
      * @var integer
@@ -37,6 +38,10 @@ abstract class Points {
      */
     protected $points;
 
+    /**
+     * @var stdClass
+     */
+    protected $about;
 
     /**
      * Get id
@@ -139,4 +144,28 @@ abstract class Points {
     {
         return $this->points;
     }
+
+    /**
+     * Set about
+     *
+     * @param  mixed   $about Can be an string representation or a AboutInterface object
+     * @return Points
+     */
+    public function setAbout($about)
+    {
+        $this->about = $about;
+
+        return $this;
+    }
+
+    /**
+     * Get about
+     *
+     * @return stdClass
+     */
+    public function getAbout()
+    {
+        return $this->about;
+    }
+
 }
