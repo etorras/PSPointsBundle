@@ -22,3 +22,12 @@ services:
         arguments: [ @doctrine.orm.entity_manager, @psps.user_points.manager ]
         tags:
             - { name: kernel.event_listener, event: psps.points.event.post_persist_points, method: onSavePoints }
+
+    bdk.about.listener:
+        class: PS\Bundle\PSPointsBundle\Doctrine\ORM\EventListener\AboutListener
+        public: false
+        tags:
+            - { name: doctrine.event_listener, event: prePersist}
+            - { name: doctrine.event_listener, event: preUpdate}
+            - { name: doctrine.event_listener, event: postLoad}
+            - { name: doctrine.event_listener, event: postPersist}

@@ -16,6 +16,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use PS\Bundle\PSPointsBundle\Events\Events;
 use Symfony\Component\EventDispatcher\Event;
 use PS\Bundle\PSPointsBundle\Model\PointsInterface;
+use PS\Bundle\PSPointsBundle\Model\AboutInterface;
 
 /**
  * Points manager.
@@ -51,6 +52,7 @@ class PointsManager implements PointsInterface
 
     /**
      * @param $params
+     * @throws \InvalidArgumentException
      * @throws \Exception
      */
     public function create($params)
@@ -61,7 +63,26 @@ class PointsManager implements PointsInterface
         if (!$params['user'] instanceof UserInterface) {
             throw new \Exception("User must be an instance of UserInterface");
         }
+        if (!$params['about'] instanceof AboutInterface) {
+            throw new \Exception("About must be an instance of AboutInterface");
+        }
+        try {
+            $aboutMetadata = $this->objectManager->getClassMetadata(get_class($params['about']));
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException("Invalid object");
+        }
+
+        $ids = $aboutMetadata->getIdentifierValues($params['about']);
+
+        if (count($ids) == 0) {
+            // Si el objeto no existe en bbdd lo creamos
+            $this->objectManager->persist($params['about']);
+            $this->objectManager->flush();
+        }
+
+        //Set the "about" object into the enquiry one
         $points = New EntityPoints();
+        $points->setAbout($params['about']);
         $points->setPoints($params['points']);
         $points->setSource($params['source']);
         $points->setCreationDate(new \DateTime());
