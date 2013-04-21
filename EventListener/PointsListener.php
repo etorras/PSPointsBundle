@@ -28,7 +28,7 @@ class PointsListener {
             'user' => $user,
             'points' => $totalPoints
         );
-        $userPoints = $this->om->getRepository('PSPSPointsBundle:UserPoints')->find($user);
+        $userPoints = $this->om->getRepository('PSPSPointsBundle:UserPoints')->findOneByUser($user);
         if (null == $userPoints) {
             $this->upm->create($params);
         }
