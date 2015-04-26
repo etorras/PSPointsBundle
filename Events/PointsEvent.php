@@ -1,8 +1,8 @@
 <?php
 /**
- * User: etorras
- * Date: 7/04/13
- */
+     * User: etorras
+     * Date: 7/04/13
+     */
 
 namespace PS\Bundle\PSPointsBundle\Events;
 

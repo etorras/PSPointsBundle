@@ -42,7 +42,7 @@ class UserPointsEvent extends Event
      *
      * @param \PS\Bundle\PSPointsBundle\Model\UserPoints $userPoints
      * @internal param \PS\Bundle\PSPointsBundle\Events\Points $points
-     * @return PointsEvent
+     * @return UserPointsEvent
      */
     public function setUserPoints(UserPoints $userPoints)
     {
