@@ -1,8 +1,8 @@
 <?php
 /**
- * User: etorras
- * Date: 7/04/13
- */
+     * User: etorras
+     * Date: 7/04/13
+     */
 
 namespace PS\Bundle\PSPointsBundle\EventListener;
 
@@ -14,7 +14,7 @@ class PointsListener {
     protected $upm;
     protected $om;
 
-    public function __construct ($om, UserPointsManager $upm)
+    public function __construct($om, UserPointsManager $upm)
     {
         $this->upm = $upm;
         $this->om = $om;
@@ -24,15 +24,14 @@ class PointsListener {
     {
         $user = $event->getPoints()->getUser();
         $totalPoints = $this->om->getRepository('PSPSPointsBundle:Points')->findTotalPointsByUser($user);
-        $params = array (
+        $params = array(
             'user' => $user,
             'points' => $totalPoints
         );
         $userPoints = $this->om->getRepository('PSPSPointsBundle:UserPoints')->findOneByUser($user);
         if (null == $userPoints) {
             $this->upm->create($params);
-        }
-        else {
+        } else {
             $this->upm->update($params, $userPoints);
         }
     }

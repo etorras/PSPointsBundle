@@ -8,6 +8,6 @@ namespace PS\Bundle\PSPointsBundle\Entity;
 
 use PS\Bundle\PSPointsBundle\Model\UserPoints as BaseUserPoints;
 
-class UserPoints extends BaseUserPoints{
+class UserPoints extends BaseUserPoints {
 
 }
