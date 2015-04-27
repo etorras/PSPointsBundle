@@ -35,14 +35,12 @@ class UserAssociationListener
             //Setting the Many to one relationship
             $builder = new ClassMetadataBuilder($args->getClassMetadata());
             $builder->addManyToOne('user', $this->userClassname, 'points');
-        }
-        elseif ($classMetadata->getName() == 'PS\Bundle\PSPointsBundle\Entity\UserPoints') {
+        } elseif ($classMetadata->getName() == 'PS\Bundle\PSPointsBundle\Entity\UserPoints') {
             //Setting the one to one relationship
             $builder = new ClassMetadataBuilder($args->getClassMetadata());
             $builder->addOwningOneToOne('user', $this->userClassname);
 
-        }
-        elseif ($classMetadata->getName() == substr($this->userClassname, 1)) {
+        } elseif ($classMetadata->getName() == substr($this->userClassname, 1)) {
             //Setting the Many to one relationship
             $builder = new ClassMetadataBuilder($args->getClassMetadata());
             $builder->addOneToMany('points', 'PS\Bundle\PSPointsBundle\Entity\Points', 'user');
