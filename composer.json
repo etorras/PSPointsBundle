@@ -18,7 +18,9 @@
         },
     "require-dev": {
             "symfony/yaml": "2.2.*",
-            "codeclimate/php-test-reporter": "dev-master"
+            "codeclimate/php-test-reporter": "dev-master",
+            "phpunit/phpunit-selenium": ">=1.2",
+            "facebook/webdriver": "dev-master"
     },
     "minimum-stability": "alpha",
     "autoload": {
